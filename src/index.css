@@ -11,3 +11,30 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.MuiToolbar-root.MuiToolbar-gutters.MuiToolbar-regular.css-hyum1k-MuiToolbar-root {
+  display: flex;
+  justify-content: space-around;
+}
+#desktopView{
+  width: 58%;
+  display: flex;
+   justify-content: space-between;
+   column-gap: 2rem;
+}
+/* #mobileView{
+  display: none;
+} */
+#desktopViewNone{
+  display: none;
+}
+
+@media screen and (max-width:800px) {
+  #mobileView{
+    display: block;
+  }
+  /* #desktopView{
+    display: none;
+  } */
+  
+}
