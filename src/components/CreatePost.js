@@ -1,22 +1,20 @@
-import React, {useState} from 'react';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
-import { TextField } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import {GrClose} from "react-icons/gr"
-
-
+import React, { useState } from "react";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Modal from "@mui/material/Modal";
+import { TextField } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { GrClose } from "react-icons/gr";
 
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
+  bgcolor: "background.paper",
+  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
@@ -30,23 +28,22 @@ export default function CreatePost() {
 
   const [title, setTitle] = useState("");
 
-  const handleCancel= () =>{
+  const handleCancel = () => {
     handleClose();
     navigate("/");
-  }
+  };
 
-  const handleSave= () =>{
-    
-  }
-  const handleNavigate = () =>{
+  const handleSave = () => {};
+  const handleNavigate = () => {
     handleClose();
     navigate("/");
-
- }
+  };
 
   return (
     <div>
-      <Button onClick={handleOpen} variant="contained">Create Post</Button>
+      <Button onClick={handleOpen} variant="contained">
+        Create Post
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -54,21 +51,33 @@ export default function CreatePost() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style} id="create-post">
-        <GrClose id="close-icon" onClick={handleNavigate}/>
-          <Typography variant='h5'>Add new post</Typography>
-         <TextField width="100%" id="outlined-basic" label="Post Title" variant="outlined" value={title} onChange={(e) => setTitle(e.target.value)}/>
-        <TextField style={{width: "100%"}}
-          id="filled-multiline-static"
-          label="Enter Your Message..."
-          multiline
-          rows={4}
-          // defaultValue="Default Value"
-          variant="filled"
-        />
-        <Box id="create-btns">
-         <Button  variant="outlined" id="" onClick={handleCancel}>Close</Button>
-         <Button  variant="contained" id="" onClick={handleSave}>Save</Button>
-         </Box>
+          <GrClose id="close-icon" onClick={handleNavigate} />
+          <Typography variant="h5">Add new post</Typography>
+          <TextField
+            width="100%"
+            id="outlined-basic"
+            label="Post Title"
+            variant="outlined"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
+          <TextField
+            style={{ width: "100%" }}
+            id="filled-multiline-static"
+            label="Enter Your Message..."
+            multiline
+            rows={4}
+            // defaultValue="Default Value"
+            variant="filled"
+          />
+          <Box id="create-btns">
+            <Button variant="outlined" id="" onClick={handleCancel}>
+              Close
+            </Button>
+            <Button variant="contained" id="" onClick={handleSave}>
+              Save
+            </Button>
+          </Box>
         </Box>
       </Modal>
     </div>

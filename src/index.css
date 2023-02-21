@@ -69,3 +69,12 @@ div#create-post {
   row-gap: 1rem;
   padding: 60px 30px 30px 30px;
 }
+
+#err-style{
+  position: absolute;
+  top: 15px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: red;
+}
