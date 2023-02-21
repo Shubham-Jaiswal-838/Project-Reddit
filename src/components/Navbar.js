@@ -24,6 +24,10 @@ export default function Navbar() {
     navigate("/signup")
 }
 
+const handleLogout =() =>{
+  // navigate("/signup")
+}
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx = {{bgcolor: blueGrey[100], columnGap:"2rem"}}>
@@ -31,10 +35,19 @@ export default function Navbar() {
         {/* <Button  variant='contained' >Create Post</Button> */}
          <CreatePost/>
          <Stack flexDirection={'row'} justifyContent={'space-between'} alignItems={'center'} columnGap="2rem">
-          {/* <Button variant='outlined' onClick={handleSignIn}>SignIn</Button> */}
-          <SignInModal/>
-          {/* <Button variant='contained' onClick={handleSignUp}>SignUp</Button> */}
-          <SignUpModal/>
+
+          {
+            localStorage.getItem("name") ? (
+               <Button onClick={handleLogout} variant="contained">Logout</Button>
+                
+            ) :
+            (
+                 <> <SignInModal/>
+                  <SignUpModal/></>
+
+            )
+          }
+         
           </Stack>
         </Toolbar>
       </AppBar>

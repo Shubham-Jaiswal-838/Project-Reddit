@@ -1,8 +1,17 @@
-import * as React from 'react';
+import React, {useEffect, useState} from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
+import TextField from '@mui/material/TextField';
+import {GrClose} from "react-icons/gr"
+import { IoMdLock } from "react-icons/io"
+import { useNavigate } from 'react-router-dom';
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 const style = {
   position: 'absolute',
@@ -17,12 +26,41 @@ const style = {
 };
 
 export default function SignInModal() {
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+
+  const handleNavigate = () =>{
+     handleClose();
+     navigate("/");
+
+  }
+
+  const handleSubmit = (e) =>{
+     //TODO : handle submit
+     if(email && password){
+     setEmail("");
+     setPassword("");
+     handleClose();
+     toast.success("Signed In successfully!");
+     console.log(email, password);
+         
+     }else{
+       toast.error("Please fill input fields!")
+     }
+    
+  }
+
   return (
     <div>
+      <ToastContainer />
       <Button onClick={handleOpen} variant="outlined">SignIn</Button>
       <Modal
         open={open}
@@ -30,13 +68,14 @@ export default function SignInModal() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Text in a modal
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-          </Typography>
+        <Box id="form-style" sx ={style}>
+
+        <GrClose id="close-icon" onClick={handleNavigate}/>
+        <IoMdLock id="lock"/>
+         <Typography variant='h5' style={{textAlign: "center"}}>Sign In</Typography>
+         <TextField id="outlined-basic" label="Email" variant="outlined" value={email} onChange={(e) => setEmail(e.target.value)}/>
+         <TextField id="outlined-basic" label="Password" variant="outlined" value={password} onChange={(e) => setPassword(e.target.value)}/>
+         <Button  variant="contained" id="btnSignIn" onClick={handleSubmit}>SignIn</Button>
         </Box>
       </Modal>
     </div>

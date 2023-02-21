@@ -16,25 +16,56 @@ code {
   display: flex;
   justify-content: space-around;
 }
-#desktopView{
-  width: 58%;
+#form-style {
   display: flex;
-   justify-content: space-between;
-   column-gap: 2rem;
+  flex-direction: column;
+  row-gap: 1rem;
+  padding: 50px;
 }
-/* #mobileView{
-  display: none;
-} */
-#desktopViewNone{
-  display: none;
+#btnSignIn{
+  align-self: flex-start;
+}
+svg#close-icon {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  cursor: pointer;
+}
+svg#lock{
+    border-radius: 100px;
+    width: 20px;
+    margin: 0 auto;
+    font-size: 30px;
+    background-color: blue;
+    color: white;
+    padding: 2px 7px;
 }
 
-@media screen and (max-width:800px) {
-  #mobileView{
-    display: block;
+@media  screen and (max-width: 600px) {
+  #form-style, div#create-post{
+    width: 60% !important;
+   padding-top: 50px !important;
+
   }
-  /* #desktopView{
-    display: none;
-  } */
-  
+   
+}
+
+div#create-btns {
+  display: flex;
+  column-gap: 1rem;
+  /* margin: 20px 0px 20px 20px; */
+  justify-content: flex-end;
+}
+
+div#create-post {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+}
+
+div#create-post {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  padding: 60px 30px 30px 30px;
 }
