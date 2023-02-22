@@ -7,16 +7,8 @@ const Home = () => {
   return (
     <>
       <Navbar />
-      <div id="postContainer">
       <PostContainer />
-      <PostContainer />
-      <PostContainer />
-      <PostContainer />
-      <PostContainer />
-      <PostContainer />
-      <PostContainer />
-      <PostContainer />
-      </div>
+   
     </>
   );
 };

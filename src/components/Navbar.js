@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -21,60 +21,53 @@ import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
 import { authStatus } from "../redux/authSlice";
 
-
 export default function Navbar() {
+  
+  const getUserAuthUpdate = useSelector(state => state.auth.userAuthStatus);
+  const dispatch = useDispatch();
+  
+  // alert("user"+" "+getUserAuthUpdate);
+  // const [mess, setMess] = useState(getUserAuthUpdate);
+  const [showLogin, setshowLogin] = useState(getUserAuthUpdate);
+
+  useEffect(() =>{
+    //  alert("rerender=======>")
+  }, [showLogin])
+
   const navigate = useNavigate();
 
-  const dispatch = useDispatch();
-  const selector  = useSelector(state => state.auth.userAuthStatus);
+  // const handleSignIn = () => {
+  //   navigate("/signin");
+  // };
+  // const handleSignUp = () => {
+  //   navigate("/signup");
+  // };
 
-   const [loginStatus,setLoginStatus] = useState(false);
-
-  const handleSignIn = () => {
-    navigate("/signin");
-  };
-  const handleSignUp = () => {
-    navigate("/signup");
-  };
-
- 
   const handleLogout = () => {
-    // navigate("/signup")
-    signOut(auth).then(() => {
-     localStorage.setItem("isUserLoggedIn", false);
-    //  alert("Signed out");
-      dispatch(authStatus(false));
-      // Sign-out successful.
-    }).catch((error) => {
-      // An error happened.
-      toast.error(error);
-    });
-
+    signOut(auth)
+      .then(() => {
+        localStorage.setItem("isUserLoggedIn", false);
+        dispatch(authStatus(false));
+      })
+      .catch((error) => {
+        toast.error(error);
+      });
   };
 
   const handleLogin = () => {
-
     navigate("/signin");
   };
 
   // console.log(typeof localStorage.getItem("isUserLoggedIn"));
 
-  useEffect(() =>{
-   const userStatus =  localStorage.getItem("isUserLoggedIn");
-   setLoginStatus(userStatus);
-
-  }, [selector]);
-
-
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
-        position="static"
+        position="fixed"
         sx={{ bgcolor: blueGrey[100], columnGap: "2rem" }}
       >
         <ToastContainer />
         <Toolbar>
-          {/* <Button  variant='contained' >Create Post</Button> */}
           <CreatePost />
           <Stack
             flexDirection={"row"}
@@ -82,20 +75,19 @@ export default function Navbar() {
             alignItems={"center"}
             columnGap="2rem"
           >
-            {(loginStatus === "true") ? (
-              <Button onClick={handleLogout} variant="outlined">
+            {localStorage.getItem("isUserLoggedIn") === "true" ? (
+              <Button onClick={handleLogout} variant="contained">
                 Logout
               </Button>
             ) : (
               <>
-                <Button onClick={handleLogin} variant="outlined">
-                Login
-              </Button>
+                <Button onClick={handleLogin} variant="contained">
+                  Login
+                </Button>
               </>
             )}
           </Stack>
         </Toolbar>
-        {/* <p>this is {tyeof localStorage.getItem("isUserLoggedIn")}</p> */}
       </AppBar>
 
       <Routes>

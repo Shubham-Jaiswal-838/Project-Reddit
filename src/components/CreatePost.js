@@ -34,16 +34,14 @@ export default function CreatePost() {
 
   const [open, setOpen] = React.useState(false);
   // const [close, setClose] = React.useState(true);
-
-  
   const handleClose = () => setOpen(false);
 
   const [title, setTitle] = useState("");
 
-
+  
   const handleOpen = () => {
-    if(!userStatus){
-     handleClose();
+    if(localStorage.getItem("isUserLoggedIn") !== "true"){
+       handleClose();
        navigate("/signin");
        // setClose();
      
@@ -53,16 +51,19 @@ export default function CreatePost() {
  
  }
 
+
+  const handleNavigate = () => {
+      handleClose();
+      navigate("/");
+    }
+
   const handleCancel = () => {
     handleClose();
     navigate("/");
   };
 
   const handleSave = () => {};
-  const handleNavigate = () => {
-    handleClose();
-    navigate("/");
-  };
+  
    
 
   return (
@@ -96,6 +97,10 @@ export default function CreatePost() {
             // defaultValue="Default Value"
             variant="filled"
           />
+
+            <Box><input accept="image/*" type="file" name="" id="raise-button-file"/>
+              </Box>
+
           <Box id="create-btns">
             <Button variant="outlined" id="" onClick={handleCancel}>
               Close

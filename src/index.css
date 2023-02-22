@@ -87,8 +87,11 @@ div#create-post {
   /* background-color: aquamarine; */
   row-gap: 1rem;
   max-width: 90vw;
-  margin: 50px auto;
+  margin: 100px auto;
   align-items: center;
   justify-items: center;
 
+}
+.MuiCardActions-root.MuiCardActions-spacing.css-1t6e9jv-MuiCardActions-root {
+  column-gap: 1rem;
 }
