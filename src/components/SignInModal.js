@@ -13,6 +13,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { auth } from "../firebase/firebase-config";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { authStatus } from "../redux/authSlice";
 
 const style = {
   position: "absolute",
@@ -29,6 +31,8 @@ const style = {
 export default function SignInModal() {
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [err, setErr] = useState("");
@@ -42,6 +46,7 @@ export default function SignInModal() {
     navigate("/");
   };
 
+
   const handleSubmit = (e) => {
     //TODO : handle submit
     if (email && password) {
@@ -50,25 +55,16 @@ export default function SignInModal() {
         setEmail("");
         setPassword("");
         handleClose();
-        // Signed in 
-        // const user = userCredential.user;
-        // setTimeout(() =>{
-          // toast.success("Signed In successfully!");
-        // }, 500)
-        // setTimeout(()=>{
          localStorage.setItem("isUserLoggedIn", true);
-
+        
+        dispatch(authStatus(true));
           toast.success(`Signed In successfully`);
-        // }, 500)
+
 
         setTimeout(()=>{
           navigate("/");
        
           }, 6000)
-
-      
-
-        // ...
       })
       .catch((error) => {
         // const errorCode = error.code;

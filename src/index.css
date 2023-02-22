@@ -78,3 +78,17 @@ div#create-post {
   text-align: center;
   color: red;
 }
+
+#postContainer{
+  /* -ms-scroll-snap-x: 100vw; */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 1rem;
+  /* background-color: aquamarine; */
+  row-gap: 1rem;
+  max-width: 90vw;
+  margin: 50px auto;
+  align-items: center;
+  justify-items: center;
+
+}

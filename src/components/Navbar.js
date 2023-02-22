@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, {useEffect, useState} from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -18,12 +18,17 @@ import { signOut } from "firebase/auth";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useDispatch, useSelector } from "react-redux";
+import { authStatus } from "../redux/authSlice";
 
 
 export default function Navbar() {
   const navigate = useNavigate();
 
-  
+  const dispatch = useDispatch();
+  const selector  = useSelector(state => state.auth.userAuthStatus);
+
+   const [loginStatus,setLoginStatus] = useState(false);
 
   const handleSignIn = () => {
     navigate("/signin");
@@ -32,12 +37,13 @@ export default function Navbar() {
     navigate("/signup");
   };
 
-
+ 
   const handleLogout = () => {
     // navigate("/signup")
     signOut(auth).then(() => {
      localStorage.setItem("isUserLoggedIn", false);
-     alert("Signed out");
+    //  alert("Signed out");
+      dispatch(authStatus(false));
       // Sign-out successful.
     }).catch((error) => {
       // An error happened.
@@ -47,10 +53,17 @@ export default function Navbar() {
   };
 
   const handleLogin = () => {
+
     navigate("/signin");
   };
 
-  console.log(typeof localStorage.getItem("isUserLoggedIn"));
+  // console.log(typeof localStorage.getItem("isUserLoggedIn"));
+
+  useEffect(() =>{
+   const userStatus =  localStorage.getItem("isUserLoggedIn");
+   setLoginStatus(userStatus);
+
+  }, [selector]);
 
 
   return (
@@ -69,13 +82,13 @@ export default function Navbar() {
             alignItems={"center"}
             columnGap="2rem"
           >
-            {(localStorage.getItem("isUserLoggedIn") === "true") ? (
-              <Button onClick={handleLogout} variant="contained">
+            {(loginStatus === "true") ? (
+              <Button onClick={handleLogout} variant="outlined">
                 Logout
               </Button>
             ) : (
               <>
-                <Button onClick={handleLogin} variant="contained">
+                <Button onClick={handleLogin} variant="outlined">
                 Login
               </Button>
               </>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -6,6 +6,8 @@ import Modal from "@mui/material/Modal";
 import { TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { GrClose } from "react-icons/gr";
+import { useSelector } from "react-redux";
+
 
 const style = {
   position: "absolute",
@@ -22,11 +24,34 @@ const style = {
 export default function CreatePost() {
   const navigate = useNavigate();
 
+  const userStatus = useSelector(state => state.auth.userAuthStatus);
+
+  // const [checkUserAuth, setCheckUserAuth] = useState(userStatus);
+
+  // useEffect(() =>{
+  //   setCheckUserAuth(userStatus);
+  // }, [userStatus])
+
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
+  // const [close, setClose] = React.useState(true);
+
+  
   const handleClose = () => setOpen(false);
 
   const [title, setTitle] = useState("");
+
+
+  const handleOpen = () => {
+    if(!userStatus){
+     handleClose();
+       navigate("/signin");
+       // setClose();
+     
+    }else {
+      setOpen(true)
+    }
+ 
+ }
 
   const handleCancel = () => {
     handleClose();
@@ -38,6 +63,7 @@ export default function CreatePost() {
     handleClose();
     navigate("/");
   };
+   
 
   return (
     <div>
