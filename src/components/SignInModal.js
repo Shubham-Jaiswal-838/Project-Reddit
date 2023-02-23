@@ -108,6 +108,7 @@ export default function SignInModal() {
             label="Email"
             variant="outlined"
             value={email}
+            type={"email"}
             required
             onChange={(e) => setEmail(e.target.value)}
           />
