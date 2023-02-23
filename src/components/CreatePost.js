@@ -65,7 +65,7 @@ export default function CreatePost() {
   let downvotes = 0;
   let image = imageUrl;
   let postText = message;
-  let postedBy = localStorage.getItem("name");
+  let postedBy = localStorage.getItem("name") || "Unknown";
   let title = titleText;
   let upvotes = 0;
   
@@ -127,6 +127,7 @@ export default function CreatePost() {
   // useEffect(() =>{
   // // just for rerender
   // }, [rerender]);
+  console.log("imageurl", imageUrl);
 
   const handleSave = async () => {
       if(titleText && message && imageUrl){

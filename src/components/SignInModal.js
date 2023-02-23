@@ -58,7 +58,7 @@ export default function SignInModal() {
          localStorage.setItem("isUserLoggedIn", true);
         
         dispatch(authStatus(true));
-          toast.success(`Signed In successfully`);
+          toast.success(`Signed in successfully`);
 
 
         setTimeout(()=>{
@@ -108,13 +108,16 @@ export default function SignInModal() {
             label="Email"
             variant="outlined"
             value={email}
+            required
             onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
             id="outlined-basic"
             label="Password"
             variant="outlined"
+            type={"password"}
             value={password}
+            required
             onChange={(e) => setPassword(e.target.value)}
           />
           <Button variant="contained" id="btnSignIn" onClick={handleSubmit}>

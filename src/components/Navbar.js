@@ -48,6 +48,7 @@ export default function Navbar() {
       .then(() => {
         localStorage.setItem("isUserLoggedIn", false);
         dispatch(authStatus(false));
+        toast.success("Logged out successfully");
       })
       .catch((error) => {
         toast.error(error);

@@ -97,7 +97,9 @@ export default function SignUpModal() {
             id="outlined-basic"
             label="Name"
             variant="outlined"
+            type={"text"}
             value={name}
+            required
             onChange={(e) => setName(e.target.value)}
           />
           <TextField
@@ -105,6 +107,8 @@ export default function SignUpModal() {
             label="Email"
             variant="outlined"
             value={email}
+            type={"email"}
+            required
             onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
@@ -112,6 +116,8 @@ export default function SignUpModal() {
             label="Password"
             variant="outlined"
             value={password}
+            type={"password"}
+            required
             onChange={(e) => setPassword(e.target.value)}
           />
           <Button variant="contained" id="btnSignIn" onClick={handleSubmit}>
