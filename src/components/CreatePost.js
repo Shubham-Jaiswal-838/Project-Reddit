@@ -6,10 +6,17 @@ import Modal from "@mui/material/Modal";
 import { TextField } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { GrClose } from "react-icons/gr";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { storage } from "../firebase/firebase-config";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../firebase/firebase-config";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import { pageReRender } from "../redux/authSlice";
 
 
 const style = {
@@ -28,6 +35,10 @@ export default function CreatePost() {
   const navigate = useNavigate();
 
   const userStatus = useSelector(state => state.auth.userAuthStatus);
+  const pageReload = useSelector(state => state.auth.forReRender);
+
+
+  const dispatch = useDispatch();
 
   // const [checkUserAuth, setCheckUserAuth] = useState(userStatus);
 
@@ -39,9 +50,25 @@ export default function CreatePost() {
   // const [close, setClose] = React.useState(true);
   const handleClose = () => setOpen(false);
 
-  const [title, setTitle] = useState("");
+  const [titleText, setTitle] = useState("");
+  const [message, setMessage] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
+
+  // const [rerender, setRerender] = useState(false);
+
+
   const [progress, setProgress] = useState(0);
 
+  const postsCollectionRef = collection(db, "Posts");
+
+  let date = new Date().toLocaleDateString('en-us', { month:"long", day:"numeric", year:"numeric"});
+  let downvotes = 0;
+  let image = imageUrl;
+  let postText = message;
+  let postedBy = localStorage.getItem("name");
+  let title = titleText;
+  let upvotes = 0;
+  
   
   const handleOpen = () => {
     if(localStorage.getItem("isUserLoggedIn") !== "true"){
@@ -66,7 +93,7 @@ export default function CreatePost() {
     navigate("/");
   };
 
-  const handleSave = () => {};
+
 
   const formHandler = (e) =>{
     e.preventDefault();
@@ -88,7 +115,8 @@ export default function CreatePost() {
      },(err) =>console.log(err),
        () =>{
          getDownloadURL(uploadTask.snapshot.ref).then((url ) =>{
-           console.log(url);
+          //  console.log(url);
+          setImageUrl(url);
          })
        }
       
@@ -96,10 +124,35 @@ export default function CreatePost() {
       
   }
   
+  // useEffect(() =>{
+  // // just for rerender
+  // }, [rerender]);
+
+  const handleSave = async () => {
+      if(titleText && message && imageUrl){
+        setTitle("");
+        setMessage("");
+        setImageUrl("");
+      
+        await addDoc(postsCollectionRef, {date, downvotes, image, postText, postedBy, title, upvotes});
+        setTimeout(() =>{
+          toast.success("Post has created successfully");
+  
+          }, 500)
+          dispatch(pageReRender(!pageReload));
+        handleClose();
+        // setRerender(!rerender);
+      }else {
+        toast.error("Please fill all fields");
+      }
+      
+  };
+  
    
 
   return (
     <div>
+      <ToastContainer />
       <Button onClick={handleOpen} variant="contained">
         Create Post
       </Button>
@@ -117,7 +170,7 @@ export default function CreatePost() {
             id="outlined-basic"
             label="Post Title"
             variant="outlined"
-            value={title}
+            value={titleText}
             onChange={(e) => setTitle(e.target.value)}
           />
           <TextField
@@ -128,6 +181,9 @@ export default function CreatePost() {
             rows={4}
             // defaultValue="Default Value"
             variant="filled"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+
           />
             
             <Box>
@@ -145,7 +201,7 @@ export default function CreatePost() {
             <Button variant="outlined" id="" onClick={handleCancel}>
               Close
             </Button>
-            <Button variant="contained" id="" onClick={handleSave}>
+            <Button variant="contained" id="" onClick={() => handleSave()}>
               Save
             </Button>
           </Box>

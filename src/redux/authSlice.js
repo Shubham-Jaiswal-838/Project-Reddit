@@ -2,6 +2,7 @@ import {createSlice} from "@reduxjs/toolkit";
 
 const initialState = {
     userAuthStatus : localStorage.getItem("isUserLoggedIn") || false,
+    forReRender: false,
 }
 
 export const authSlice = createSlice({
@@ -12,11 +13,14 @@ export const authSlice = createSlice({
         authStatus : (state, action) =>{
             state.userAuthStatus = action.payload;
         },
+        pageReRender: (state, action) =>{
+            state.forReRender = action.payload;
+        }
 
     }
 })
 
 // / Action creators are generated for each case reducer function
-export const { authStatus} = authSlice.actions;
+export const { authStatus, pageReRender} = authSlice.actions;
 
 export default authSlice.reducer;

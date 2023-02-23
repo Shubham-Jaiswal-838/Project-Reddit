@@ -61,6 +61,7 @@ export default function SignUpModal() {
           toast.success(`Signed Up successfully`);
           }, 500)
           navigate("/signin");
+         localStorage.setItem("name", name);
           // ...
         })
         .catch((error) => {

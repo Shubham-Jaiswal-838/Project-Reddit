@@ -20,8 +20,12 @@ import { TramRounded } from "@mui/icons-material";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSelector } from "react-redux";
 
 export default function PostContainer() {
+
+   const forReRedering = useSelector(state => state.auth.forReRender);
+
   const [posts, setPosts] = useState([]);
   const [rerender, setRerender] = useState(false);
 
@@ -35,7 +39,7 @@ export default function PostContainer() {
     };
 
     getPosts();
-  }, [rerender]);
+  }, [rerender, forReRedering]);
   // console.log(posts);
 
   const handleUpVote = async  (id, upvotes) =>{
@@ -63,6 +67,8 @@ export default function PostContainer() {
 
 
   }
+
+
 
   return (
     <>
