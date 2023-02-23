@@ -8,6 +8,9 @@ import { useNavigate } from "react-router-dom";
 import { GrClose } from "react-icons/gr";
 import { useSelector } from "react-redux";
 
+import { storage } from "../firebase/firebase-config";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+
 
 const style = {
   position: "absolute",
@@ -37,6 +40,7 @@ export default function CreatePost() {
   const handleClose = () => setOpen(false);
 
   const [title, setTitle] = useState("");
+  const [progress, setProgress] = useState(0);
 
   
   const handleOpen = () => {
@@ -63,6 +67,34 @@ export default function CreatePost() {
   };
 
   const handleSave = () => {};
+
+  const formHandler = (e) =>{
+    e.preventDefault();
+    const file = e.target[0].files[0];
+    // console.log(file);
+     uploadFiles(file);
+
+
+  }
+
+  const uploadFiles = (file) =>{
+     if(!file) return ;
+     const storageRef = ref(storage, `/files/${file.name}`);
+     const uploadTask = uploadBytesResumable(storageRef, file);
+     uploadTask.on("state_change", (snapshot) =>{
+        const prog = Math.round((snapshot.bytesTransferred / snapshot.totalBytes)*100);
+
+        setProgress(prog);
+     },(err) =>console.log(err),
+       () =>{
+         getDownloadURL(uploadTask.snapshot.ref).then((url ) =>{
+           console.log(url);
+         })
+       }
+      
+     );
+      
+  }
   
    
 
@@ -97,8 +129,16 @@ export default function CreatePost() {
             // defaultValue="Default Value"
             variant="filled"
           />
-
-            <Box><input accept="image/*" type="file" name="" id="raise-button-file"/>
+            
+            <Box>
+            {/* <Box> */}
+            <form onSubmit={formHandler}>
+              <input accept="image/*" type="file"/>
+               <button type="submit">Upload</button>
+               </form>
+              {/* </Box> */}
+              <hr />
+              <h3  onClick={uploadFiles }>Uploaded {progress} %</h3>
               </Box>
 
           <Box id="create-btns">
