@@ -18,7 +18,6 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { pageReRender } from "../redux/authSlice";
 
-
 const style = {
   position: "absolute",
   top: "50%",
@@ -34,9 +33,8 @@ const style = {
 export default function CreatePost() {
   const navigate = useNavigate();
 
-  const userStatus = useSelector(state => state.auth.userAuthStatus);
-  const pageReload = useSelector(state => state.auth.forReRender);
-
+  const userStatus = useSelector((state) => state.auth.userAuthStatus);
+  const pageReload = useSelector((state) => state.auth.forReRender);
 
   const dispatch = useDispatch();
 
@@ -56,100 +54,97 @@ export default function CreatePost() {
 
   // const [rerender, setRerender] = useState(false);
 
-
   const [progress, setProgress] = useState(0);
 
   const postsCollectionRef = collection(db, "Posts");
 
-  let date = new Date().toLocaleDateString('en-us', { month:"long", day:"numeric", year:"numeric"});
+  let date = new Date().toLocaleDateString("en-us", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
   let downvotes = 0;
   let image = imageUrl;
   let postText = message;
   let postedBy = localStorage.getItem("name") || "Unknown";
   let title = titleText;
   let upvotes = 0;
-  
-  
-  const handleOpen = () => {
-    if(localStorage.getItem("isUserLoggedIn") !== "true"){
-       handleClose();
-       navigate("/signin");
-       // setClose();
-     
-    }else {
-      setOpen(true)
-    }
- 
- }
 
+  const handleOpen = () => {
+    if (localStorage.getItem("isUserLoggedIn") !== "true") {
+      handleClose();
+      navigate("/signin");
+      // setClose();
+    } else {
+      setOpen(true);
+    }
+  };
 
   const handleNavigate = () => {
-      handleClose();
-      navigate("/");
-    }
+    handleClose();
+    navigate("/");
+  };
 
   const handleCancel = () => {
     handleClose();
     navigate("/");
   };
 
-
-
-  const formHandler = (e) =>{
+  const formHandler = (e) => {
     e.preventDefault();
     const file = e.target[0].files[0];
     // console.log(file);
-     uploadFiles(file);
+    uploadFiles(file);
+  };
 
-
-  }
-
-  const uploadFiles = (file) =>{
-     if(!file) return ;
-     const storageRef = ref(storage, `/files/${file.name}`);
-     const uploadTask = uploadBytesResumable(storageRef, file);
-     uploadTask.on("state_change", (snapshot) =>{
-        const prog = Math.round((snapshot.bytesTransferred / snapshot.totalBytes)*100);
+  const uploadFiles = (file) => {
+    if (!file) return;
+    const storageRef = ref(storage, `/files/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+    uploadTask.on(
+      "state_change",
+      (snapshot) => {
+        const prog = Math.round(
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+        );
 
         setProgress(prog);
-     },(err) =>console.log(err),
-       () =>{
-         getDownloadURL(uploadTask.snapshot.ref).then((url ) =>{
+      },
+      (err) => console.log(err),
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
           //  console.log(url);
           setImageUrl(url);
-         })
-       }
-      
-     );
-      
-  }
-  
-  // useEffect(() =>{
-  // // just for rerender
-  // }, [rerender]);
-  console.log("imageurl", imageUrl);
+        });
+      }
+    );
+  };
 
   const handleSave = async () => {
-      if(titleText && message && imageUrl){
-        setTitle("");
-        setMessage("");
-        setImageUrl("");
-      
-        await addDoc(postsCollectionRef, {date, downvotes, image, postText, postedBy, title, upvotes});
-        setTimeout(() =>{
-          toast.success("Post has created successfully");
-  
-          }, 500)
-          dispatch(pageReRender(!pageReload));
-        handleClose();
-        // setRerender(!rerender);
-      }else {
-        toast.error("Please fill all fields");
-      }
-      
+    if (titleText && message && imageUrl) {
+      setTitle("");
+      setMessage("");
+      setImageUrl("");
+
+      await addDoc(postsCollectionRef, {
+        date,
+        downvotes,
+        image,
+        postText,
+        postedBy,
+        title,
+        upvotes,
+      });
+      setTimeout(() => {
+        toast.success("Post has created successfully");
+      }, 500);
+      dispatch(pageReRender(!pageReload));
+      handleClose();
+      // setRerender(!rerender);
+    } else {
+      toast.error("Please fill all fields");
+    }
   };
-  
-   
 
   return (
     <div>
@@ -184,19 +179,18 @@ export default function CreatePost() {
             variant="filled"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
-
           />
-            
-            <Box>
+
+          <Box>
             {/* <Box> */}
             <form onSubmit={formHandler}>
-              <input accept="image/*" type="file"/>
-               <button type="submit">Upload</button>
-               </form>
-              {/* </Box> */}
-              <hr />
-              <h3  onClick={uploadFiles }>Uploaded {progress} %</h3>
-              </Box>
+              <input accept="image/*" type="file" />
+              <button type="submit">Upload</button>
+            </form>
+            {/* </Box> */}
+            <hr />
+            <h3 onClick={uploadFiles}>Uploaded {progress} %</h3>
+          </Box>
 
           <Box id="create-btns">
             <Button variant="outlined" id="" onClick={handleCancel}>

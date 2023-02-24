@@ -121,3 +121,11 @@ div#create-post {
 .css-i6s8oy{
   justify-content: space-around !important;
 }
+#center{
+   /* text-align: center !important; */
+   /* justify-content: center; */
+   position: absolute;
+   top: 20%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+}
