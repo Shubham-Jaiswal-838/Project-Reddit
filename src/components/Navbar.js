@@ -77,12 +77,12 @@ export default function Navbar() {
             columnGap="2rem"
           >
             {localStorage.getItem("isUserLoggedIn") === "true" ? (
-              <Button onClick={handleLogout} variant="contained">
+              <Button onClick={handleLogout} variant="outlined">
                 Logout
               </Button>
             ) : (
               <>
-                <Button onClick={handleLogin} variant="contained">
+                <Button onClick={handleLogin} variant="outlined">
                   Login
                 </Button>
               </>
